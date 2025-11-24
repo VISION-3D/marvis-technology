@@ -1,0 +1,380 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
+import { FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
+import { FaEnvelope } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { FaBullseye, FaCommentDots, FaPaperPlane } from "react-icons/fa";
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulation d'envoi
+    setTimeout(() => {
+      const subject = encodeURIComponent(formData.subject || `Contact portfolio - ${formData.name}`);
+      const body = encodeURIComponent(
+        `Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      );
+      
+      window.location.href = `mailto:marvissene25@gmail.com?subject=${subject}&body=${body}`;
+      setIsSubmitting(false);
+    }, 2000);
+  };
+
+
+
+const contactMethods = [
+  {
+    icon: <FaEnvelope style={{ color: "#EC4899" }} />,
+    title: "Email",
+    value: "marvissene@gmail.com",
+    description: "Réponse sous 24h",
+    link: "www.linkedin.com/in/saliou-sene-",
+    color: "#EC4899"
+  },
+  {
+    icon: <FaWhatsapp style={{ color: "#25D366" }} />,
+    title: "WhatsApp",
+    value: "+221 77 949 06 85",
+    description: "Discutons en direct",
+    link: "www.linkedin.com/in/saliou-sene-",
+    color: "#25D366"
+  },
+  {
+    icon: <FaMapMarkerAlt style={{ color: "#6C63FF" }} />,
+    title: "Localisation",
+    value: "Thiés, Sénégal",
+    description: "Remote & Présentiel",
+    color: "#6C63FF"
+  }
+];
+
+
+ 
+const socialNetworks = [
+  { name: "GitHub", icon: <FaGithub style={{ color: "#333" }} />, link: "#" },
+  { name: "LinkedIn", icon: <FaLinkedin style={{ color: "#0077B5" }} />, link: "#" },
+  { name: "Twitter", icon: <FaTwitter style={{ color: "#1DA1F2" }} />, link: "#" },
+  { name: "Instagram", icon: <FaInstagram style={{ color: "#E4405F" }} />, link: "#" }
+];
+
+  const faqs = [
+    {
+      question: "Quels sont vos délais de livraison ?",
+      answer: "Les délais varient selon la complexité du projet. Un site vitrine simple : 1-2 semaines. Une application complexe : 1-3 mois."
+    },
+    {
+      question: "Proposez-vous un support après livraison ?",
+      answer: "Oui, je propose un support technique de 30 jours gratuit après la livraison, puis des formules de maintenance mensuelles."
+    },
+    {
+      question: "Travaillez-vous en remote ?",
+      answer: "Absolument ! Je travaille principalement à distance avec des clients partout dans le monde. Je peux aussi me déplacer sur Dakar."
+    },
+    {
+      question: "Quels sont vos modes de paiement ?",
+      answer: "Je propose un paiement échelonné : 30% à la signature, 40% à la mi-projet, 30% à la livraison. Paiement par virement bancaire ou mobile money."
+    }
+  ];
+
+  return (
+    <div className="contact-page">
+      {/* Hero Section Contact */}
+      <section className="contact-hero-tech">
+        <div className="contact-hero-background">
+          <div className="contact-orb orb-1"></div>
+          <div className="contact-orb orb-2"></div>
+          <div className="communication-waves"></div>
+        </div>
+        
+        <div className="container">
+          <div className="contact-hero-content text-center">
+            <div className="tech-badge-contact" data-aos="fade-down">
+              <span className="pulse-dot-contact"></span>
+              Contact
+            </div>
+            
+            <h1 className="contact-hero-title" data-aos="fade-up">
+              Discutons de votre <span className="tech-gradient-text">projet</span>
+            </h1>
+            
+            <p className="contact-hero-description" data-aos="fade-up" data-aos-delay="200">
+              Vous avez une idée de projet ? Envie de collaborer ? 
+              Contactez-moi et je vous répondrai dans les plus brefs délais.
+            </p>
+
+            {/* Communication Indicators */}
+            <div className="communication-indicators" data-aos="fade-up" data-aos-delay="400">
+              <div className="indicator">
+                <div className="indicator-dot active"></div>
+                <span>En ligne</span>
+              </div>
+              <div className="indicator">
+                <div className="indicator-dot"></div>
+                <span>Réponse rapide</span>
+              </div>
+              <div className="indicator">
+                <div className="indicator-dot"></div>
+                <span>Disponible</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Contact Section */}
+      <section className="contact-main-tech">
+        <div className="container">
+          <div className="contact-grid">
+            {/* Informations de Contact */}
+            <div className="contact-info-tech" data-aos="fade-right">
+              <div className="contact-info-header">
+                <h2>Mes coordonnées</h2>
+                <p>Plusieurs moyens de me contacter pour discuter de votre projet</p>
+              </div>
+
+              {/* Méthodes de Contact */}
+              <div className="contact-methods-grid">
+                {contactMethods.map((method, index) => (
+                  <div 
+                    key={index} 
+                    className="contact-method-card"
+                    data-aos="zoom-in"
+                    data-aos-delay={index * 100}
+                    style={{ '--method-color': method.color }}
+                  >
+                    <div className="method-icon-wrapper">
+                      <div 
+                        className="method-icon"
+                        style={{ backgroundColor: `${method.color}20` }}
+                      >
+                        {method.icon}
+                      </div>
+                      <div className="method-glow"></div>
+                    </div>
+                    
+                    <div className="method-content">
+                      <h3 className="method-title">{method.title}</h3>
+                      {method.link ? (
+                        <a 
+                          href={method.link} 
+                          className="method-value"
+                          target={method.link.startsWith('http') ? '_blank' : '_self'}
+                          rel="noopener noreferrer"
+                        >
+                          {method.value}
+                        </a>
+                      ) : (
+                        <span className="method-value">{method.value}</span>
+                      )}
+                      <p className="method-description">{method.description}</p>
+                    </div>
+                    
+                    <div className="method-energy"></div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Réseaux Sociaux */}
+              <div className="social-section-tech">
+                <h3>Suivez-moi</h3>
+                <div className="social-grid-tech">
+                  {socialNetworks.map((social, index) => (
+                    <a
+                      key={index}
+                      href={social.link}
+                      className="social-card-tech"
+                      style={{ '--social-color': social.color }}
+                      data-aos="flip-up"
+                      data-aos-delay={index * 100}
+                    >
+                      <div className="social-icon">{social.icon}</div>
+                      <span className="social-name">{social.name}</span>
+                      <div className="social-glow"></div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+         
+{/* Formulaire de Contact */}
+<div className="contact-form-tech" data-aos="fade-left">
+  <form onSubmit={handleSubmit} className="tech-contact-form">
+    <div className="form-header">
+      <h3>Envoyez un message</h3>
+      <p>Décrivez votre projet en détail pour une réponse personnalisée</p>
+    </div>
+
+    <div className="form-grid">
+      {/* Nom complet */}
+      <div className="form-group" data-aos="fade-up">
+        <label htmlFor="name" className="form-label-tech">
+          <span className="label-icon"><FaUser style={{ color: "#6C63FF" }} /></span>
+          Nom complet *
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          className="form-input-tech"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          placeholder="Votre nom complet"
+        />
+        <div className="input-glow"></div>
+      </div>
+
+
+<div className="form-group" data-aos="fade-up" data-aos-delay="100">
+  <label htmlFor="email" className="form-label-tech">
+    <span className="label-icon"><FaEnvelope style={{ color: "#EC4899" }} /></span>
+    Email *
+  </label>
+
+
+
+
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="form-input-tech"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="votre@email.com"
+                    />
+                    <div className="input-glow"></div>
+                  </div>
+
+                  {/* Sujet */}
+<div className="form-group full-width" data-aos="fade-up" data-aos-delay="200">
+  <label htmlFor="subject" className="form-label-tech">
+    <span className="label-icon"><FaBullseye style={{ color: "#8B5CF6" }} /></span>
+    Sujet
+  </label>
+  <input
+    type="text"
+    id="subject"
+    name="subject"
+    className="form-input-tech"
+    value={formData.subject}
+    onChange={handleChange}
+    placeholder="Ex: Développement site web"
+  />
+  <div className="input-glow"></div>
+</div>
+
+
+                {/* Message */}
+<div className="form-group full-width" data-aos="fade-up" data-aos-delay="300">
+  <label htmlFor="message" className="form-label-tech">
+    <span className="label-icon"><FaCommentDots style={{ color: "#10B981" }} /></span>
+    Message *
+  </label>
+  <textarea
+    id="message"
+    name="message"
+    className="form-textarea-tech"
+    rows="6"
+    value={formData.message}
+    onChange={handleChange}
+    required
+    placeholder="Décrivez votre projet en détail..."
+  ></textarea>
+  <div className="input-glow"></div>
+</div>
+
+                {/* Bouton d'envoi */}
+<button 
+  type="submit" 
+  className={`submit-btn-tech ${isSubmitting ? 'submitting' : ''}`}
+  disabled={isSubmitting}
+  data-aos="zoom-in"
+  data-aos-delay="400"
+>
+  {isSubmitting ? (
+    <>
+      <div className="submit-spinner"></div>
+      Envoi en cours...
+    </>
+  ) : (
+    <>
+      <span className="btn-icon"><FaPaperPlane /></span>
+      Envoyer le message
+    </>
+  )}
+</button>
+   </div>           </form>
+            
+             </div> 
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="contact-faq-tech">
+        <div className="container">
+          <div className="faq-header text-center" data-aos="fade-up">
+            <h2>Questions fréquentes</h2>
+            <p>Trouvez rapidement des réponses à vos questions les plus courantes</p>
+          </div>
+
+          <div className="faq-grid">
+            {faqs.map((faq, index) => (
+              <div 
+                key={index} 
+                className="faq-item-tech"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+              >
+                <div className="faq-question">
+                  <div className="question-icon">❓</div>
+                  <h4>{faq.question}</h4>
+                </div>
+                <div className="faq-answer">
+                  <p>{faq.answer}</p>
+                </div>
+                <div className="faq-energy"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA supplémentaire */}
+          <div className="faq-cta" data-aos="fade-up">
+            <div className="faq-cta-content">
+              <h3>Vous avez d'autres questions ?</h3>
+              <p>N'hésitez pas à me contacter directement pour toute information supplémentaire</p>
+              <div className="faq-cta-actions">
+                <Link to="/contact" className="btn-tech-primary">
+                  Me contacter maintenant
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Contact;
