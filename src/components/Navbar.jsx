@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/theme.css";
 import { FaSearch,FaRobot,FaYoutube, FaFacebook,FaTwitter,FaLinkedin, FaGithub, FaInstagram} from "react-icons/fa";
- 
+import Logo from "../assets/Logo.png";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -145,15 +145,20 @@ const Navbar = () => {
               zIndex: 10
             }}
           >
-            <img
-              src="/logo.png"
-              alt="Marvis Technologie et IA"
+<img
+  src={Logo}
+  alt="Marvis Technologie et IA"
+  style={{
+    width: "65px",
+    height: "65px",
+    objectFit: "contain",
+    filter: "drop-shadow(0 0 18px rgba(59,130,246,0.7))",
+    transition: "0.3s ease-in-out"
+  }}
+/>
+            <span
               style={{
-                width: "65px",
-                height: "65px",
-                objectFit: "contain",
-                filter: "drop-shadow(0 0 18px rgba(59,130,246,0.7))",
-                transition: "0.3s ease-in-out"
+                marginLeft: "10px",
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = "scale(1.1)";
