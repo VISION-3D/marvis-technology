@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
-import { FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
-import { FaEnvelope } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
-import { FaBullseye, FaCommentDots, FaPaperPlane } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaWhatsapp, FaMapMarkerAlt, FaEnvelope, FaUser, FaBullseye, FaCommentDots, FaPaperPlane } from "react-icons/fa";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
