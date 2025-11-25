@@ -1,7 +1,4 @@
-# robots.txt pour Marvis Technologie & IA
-# Autorise tous les robots à indexer le site et indique le sitemap
-
 User-agent: *
 Allow: /
 
-Sitemap: https://marvis-sene.netlify.app/sitemap.xml
+Sitemap: https://marvis-technologie.netlify.app/sitemap.xml
