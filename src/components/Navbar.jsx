@@ -1,11 +1,12 @@
 // --- CODE CORRIGÉ - BARRE CENTRÉE ---
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/theme.css";
 import { FaSearch,FaRobot,FaYoutube, FaFacebook,FaTwitter,FaLinkedin, FaGithub, FaInstagram} from "react-icons/fa";
  
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeIndicator, setActiveIndicator] = useState({ width: 0, left: 0 });
   const location = useLocation();
 
@@ -16,7 +17,11 @@ const Navbar = () => {
   }, []);
 
   // Mise à jour de l'indicateur actif quand la route change
-  const updateActiveIndicator = useCallback(() => {
+  useEffect(() => {
+    updateActiveIndicator();
+  }, [location.pathname]);
+
+  const updateActiveIndicator = () => {
     const activeLink = document.querySelector(`a[href="${location.pathname}"]`);
     if (activeLink) {
       const { offsetWidth, offsetLeft } = activeLink;
@@ -25,11 +30,7 @@ const Navbar = () => {
         left: offsetLeft
       });
     }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    updateActiveIndicator();
-  }, [updateActiveIndicator]);
+  };
 
   const navItems = [
     { path: "/", label: "Accueil" },
