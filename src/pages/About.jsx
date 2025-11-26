@@ -148,7 +148,7 @@ return (
 
               {/* Description */}
               <p className="hero-description-tech" style={{color: "#e0e0e0"}}>
-                Fondateur de <strong style={{color: "#ffffff"}}>Marvis Technologie & IA</strong>. 
+                Fondateur de <strong style={{color: "#ffffff"}}>TaqwaTech </strong>. 
                 Je crée des solutions digitales innovantes qui transforment vos idées en réalité.
               </p>
 

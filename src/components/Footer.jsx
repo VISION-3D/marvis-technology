@@ -8,15 +8,36 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="tech-footer">
-      <div className="footer-container">
+  <footer className="tech-footer">
+  <div className="footer-container">
 
-        {/* COLONNE 1 : LOGO + DESCRIPTION */}
-        <div className="footer-brand">
-       <div className="footer-logo">
-  <img src={Logo} alt="Marvis Technologie & IA" className="footer-logo-img" />
-  <span className="footer-logo-title">Marvis Technologie & IA</span>
-</div>
+    {/* COLONNE 1 : LOGO + DESCRIPTION */}
+    <div className="footer-brand">
+
+      <div className="footer-logo">
+        <img src={Logo} alt="TaqwaTech" className="footer-logo-img" />
+
+        <span
+          className="footer-logo-title"
+          style={{
+            marginLeft: "-100px",
+            fontSize: "3rem",
+            fontWeight: "700",
+            background: "linear-gradient(90deg,#ffffff,#b3c8ff)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            textShadow: `
+              0px 1px 1px rgba(0, 0, 0, 0.25),
+              0px 2px 2px rgba(0, 0, 0, 0.18),
+              0px 3px 3px rgba(0, 0, 0, 0.14),
+              0 0 10px rgba(59,130,246,0.55)
+            `,
+          }}
+        >
+          TaqwaTech
+        </span>
+
+      </div>
 
           <p className="footer-description">
             Solutions digitales avancées : IA, développement web, mobile, systèmes,
@@ -54,7 +75,7 @@ const Footer = () => {
         {/* COLONNE 4 : CONTACT */}
        <div className="contact-item">
   <FaEnvelope style={{ marginRight: "8px", color: "#00ffff" }} />
-  <a href="mailto:marvissene25@gmail.com">marvissene@gmail.com</a>
+  <a href="mailto:marvissene25@gmail.com">contactaqwatech@gmail.com </a>
 </div>
 
 <div className="contact-item">
@@ -71,7 +92,7 @@ const Footer = () => {
     
 
 <div className="footer-bottom">
-  <span>© {currentYear} Marvis Technologie & IA — Saliou SENE. Tous droits réservés.</span>
+  <span>© {currentYear} TaqwaTech — Saliou SENE. Tous droits réservés.</span>
 
   <div className="footer-legal">
     <a href="#">Politique de confidentialité</a>

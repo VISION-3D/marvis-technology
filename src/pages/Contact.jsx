@@ -44,7 +44,7 @@ const Contact = () => {
     {
       icon: <FaEnvelope style={{ color: "#EC4899" }} />,
       title: "Email",
-      value: "marvissene25@gmail.com",
+      value: "contactaqwatech@gmail.com ",
       description: "Réponse sous 24h",
       action: () => {
         const subject = "Nouveau contact depuis votre portfolio";

@@ -147,7 +147,7 @@ const Navbar = () => {
           >
 <img
   src={Logo}
-  alt="Marvis Technologie et IA"
+  alt="TaqwaTech"
   style={{
     width: "65px",
     height: "65px",
@@ -173,18 +173,24 @@ const Navbar = () => {
             />
 
             <span
-              style={{
-                marginLeft: "10px",
-                fontSize: "0.9rem",
-                fontWeight: "600",
-                background: "linear-gradient(90deg,#fff,#b3c8ff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                textShadow: "0 0 12px rgba(59,130,246,0.6)"
-              }}
-            >
-              Marvis Technologie et IA
-            </span>
+  style={{
+    marginLeft: "10px",
+    fontSize: "2rem",
+    fontWeight: "700",
+    background: "linear-gradient(90deg,#ffffff,#b3c8ff)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    textShadow: `
+      0px 1px 1px rgba(0, 0, 0, 0.25),
+      0px 2px 2px rgba(0, 0, 0, 0.18),
+      0px 3px 3px rgba(0, 0, 0, 0.14),
+      0 0 12px rgba(59,130,246,0.6)
+    `,
+  }}
+>
+  TaqwaTech
+</span>
+
           </Link>
 
           {/* MENU PRINCIPAL */}
