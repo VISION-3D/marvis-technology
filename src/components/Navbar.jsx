@@ -17,7 +17,17 @@ const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const searchRef = useRef(null);
-  const location = useLocation();
+  const location = useLocation();// ← ajoute ceci avec tes autres states
+  const [searchQuery, setSearchQuery] = useState("");
+
+const handleSearch = (query) => {
+  if (!query) return;
+  console.log("Recherche :", query); // Pour tester
+  // Exemple : ouvrir Google
+  window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
+  setSearchQuery(""); // vide l’input si tu veux
+};
+
 
   // Effets de souris et scroll
   useEffect(() => {
@@ -278,40 +288,63 @@ const navItems = [
                 }}
               >
                 <FaSearch size={16} />
-              </button>
 
-              {/* PANEL RECHERCHE */}
-              {isSearchOpen && (
-                <div style={{
-                  position: 'absolute',
-                  top: '100%',
-                  right: 0,
-                  marginTop: '10px',
-                  background: 'rgba(15, 23, 42, 0.95)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(59,130,246,0.3)',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
-                  width: '300px',
-                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
-                  zIndex: 1001
-                }}>
-                  <input
-                    type="text"
-                    placeholder="Rechercher... 🔍"
-                    style={{
-                      width: '100%',
-                      background: 'rgba(30, 41, 59, 0.6)',
-                      border: '1px solid rgba(59,130,246,0.2)',
-                      borderRadius: '10px',
-                      padding: '0.8rem 1rem',
-                      color: '#fff',
-                      fontSize: '0.9rem',
-                      outline: 'none'
-                    }}
-                  />
-                </div>
-              )}
+
+              </button>
+{/* PANEL RECHERCHE */}
+
+
+
+{isSearchOpen && (
+  <div style={{
+    position: 'absolute',
+    top: '100%',
+    left: window.innerWidth <= 480 ? '50%' : 'auto', // centrer sur mobile
+    right: window.innerWidth <= 480 ? 'auto' : 0,     // garder right:0 sur desktop
+    transform: window.innerWidth <= 480 ? 'translateX(-50%)' : 'none', // centrer
+    marginTop: '10px',
+    background: 'rgba(15, 23, 42, 0.95)',
+    backdropFilter: 'blur(20px)',
+    border: '1px solid rgba(59,130,246,0.3)',
+    borderRadius: '16px',
+    padding: '1.5rem',
+    width: window.innerWidth <= 480 ? '90vw' : '300px', // adaptatif mobile
+    maxWidth: '300px',
+    boxSizing: 'border-box',
+    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
+    zIndex: 1001,
+  }}>
+
+  <input
+  type="text"
+  placeholder="Rechercher... 🔍"
+  value={searchQuery} // état React
+  onChange={(e) => setSearchQuery(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // ← empêche le navigateur de “soumettre”
+      handleSearch(searchQuery); // ← ta fonction de recherche
+    }
+  }}
+  style={{
+    width: '100%',
+    background: 'rgba(30, 41, 59, 0.6)',
+    border: '1px solid rgba(59,130,246,0.2)',
+    borderRadius: '10px',
+    padding: '0.8rem 1rem',
+    color: '#fff',
+    fontSize: '0.9rem',
+    outline: 'none'
+  }}
+/>
+
+
+
+
+
+  </div>
+)}
+
             </div>
 
             {/* BOUTON MODE SOMBRE */}
@@ -506,47 +539,56 @@ const navItems = [
       )}
 
       <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-          50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
-        }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
+  }
 
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
 
-        .glass-navbar {
-          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+  .glass-navbar {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 
-        .glass-navbar.scrolled {
-          transform: translateX(-50%) scale(0.98);
-          top: 10px;
-        }
+  .glass-navbar.scrolled {
+    transform: translateX(-50%) scale(0.98);
+    top: 10px;
+  }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-          .nav-center { display: none !important; }
-          .glass-navbar { padding: 1rem 1.5rem; }
-        }
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .nav-center { display: none !important; }
+    .glass-navbar { padding: 1rem 1.5rem; }
+  }
 
-        @media (max-width: 768px) {
-          .glass-navbar { 
-            width: 90% !important;
-            padding: 0.8rem 1rem;
-          }
-          .quick-access-bar { display: none !important; }
-        }
+  @media (max-width: 768px) {
+    .glass-navbar { 
+      width: 90% !important;
+      padding: 0.8rem 1rem;
+    }
+    .quick-access-bar { display: none !important; }
+  }
 
-        @media (max-width: 480px) {
-          .glass-navbar { 
-            width: 92% !important;
-            top: 10px !important;
-          }
-          .logo-container span { display: none !important; }
-        }
-      `}</style>
+  @media (max-width: 480px) {
+    .glass-navbar { 
+      width: 92% !important;
+      top: 10px !important;
+    }
+
+    /* TEXTE LOGO VISIBLE SUR MOBILE */
+    .logo-container span {
+      display: inline-block !important;
+      font-size: 1rem;        /* ajuste la taille sur petit écran */
+      white-space: nowrap;    /* empêche le texte de se couper */
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+`}</style>
+
 
       {/* ESPACE POUR LA NAVBAR */}
       <div style={{ height: '140px' }} />
