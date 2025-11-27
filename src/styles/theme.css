@@ -7923,3 +7923,30 @@ animation: scrollArrow 1.5s infinite;
 
 
 
+/* Assombrir le fond des cartes dépliées */
+.service-overview-card-tech.active {
+  background-color: rgba(0, 0, 0, 0.6) !important; /* fond sombre semi-transparent */
+  border-color: #ffffff30 !important; /* bordure plus subtile */
+}
+
+/* Overlay de l'image */
+.service-image-overlay-tech {
+  background-color: rgba(0, 0, 0, 0.3) !important; /* moins blanc, plus sombre */
+}
+
+/* Glow autour de la carte */
+.service-overview-glow {
+  background-color: rgba(255, 255, 255, 0.15) !important; /* très léger, texte reste lisible */
+}
+
+/* Texte des prix et détails dans la carte dépliée */
+.service-expanded-content p,
+.pricing-value {
+  color: #ffffff !important; /* forcer le texte à rester blanc */
+}
+
+/* Boutons et labels */
+.btn-service-choose,
+.pricing-label {
+  color: #0A0F1F !important; /* texte sombre sur bouton blanc si nécessaire */
+}
