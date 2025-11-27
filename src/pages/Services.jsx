@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGlobe, FaMobileAlt, FaRobot, FaBullhorn, FaComments, FaTools, FaLightbulb, FaRocket } from "react-icons/fa";
 import { FaMoneyBillWave, FaClock, FaBullseye, FaHeadset } from "react-icons/fa";
+import SEO from "../components/SEO";
+
+
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("web");
@@ -122,6 +125,8 @@ const Services = () => {
 
   return (
     <div className="services-page" style={{backgroundColor: "#0A0F1F", color: "#ffffff"}}>
+    
+
       
       {/* Hero Section Services avec Background Énergétique */}
       <section className="services-hero-tech" style={{
@@ -147,7 +152,7 @@ const Services = () => {
         {/* Contenu Principal */}
         <div className="container" style={{ position: 'relative', zIndex: 3 }}>
           <div className="services-hero-content text-center">
-            
+             
             {/* Badge Animé */}
             <div className="services-hero-badge" style={{
               backgroundColor: "#ffffff15",
@@ -245,7 +250,7 @@ const Services = () => {
       <section className="service-detail-section" style={{backgroundColor: "#0A0F1F"}}>
         <div className="container">
           <div className="service-detail-grid">
-            
+             </div>
             {/* Carte Principale du Service */}
             <div className="service-main-card" data-aos="fade-right" style={{
               backgroundColor: "#ffffff10",
@@ -310,6 +315,14 @@ const Services = () => {
 
           {/* Sidebar Informations */}
 <div className="service-info-sidebar" data-aos="fade-left">
+<div className="services-page">
+  {/* SEO pour cette page */}
+  <SEO
+    title="TaqwaTech - Nos Services"
+    description="Découvrez les services de TaqwaTech : développement web, applications, solutions IA et digital sur mesure."
+  />
+
+
 
   {/* Informations Pratiques */}
   <div className="info-card service-practical-info" style={{

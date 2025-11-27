@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaGlobe, FaLaptopCode, FaBullhorn, FaMobileAlt, FaTools, FaLightbulb, FaRobot, FaRocket } from "react-icons/fa";
-import { FaStar, FaBolt, FaTrophy, FaBriefcase } from "react-icons/fa";;
+import { FaStar, FaBolt, FaTrophy, FaBriefcase } from "react-icons/fa";
+import SEO from "../components/SEO";;
 
 const About = () => {
 const skills = [
@@ -99,6 +100,16 @@ const achievements = [
 return (
     <div className="about-page" style={{ paddingTop: '80px' }}>
       
+
+{/* SEO pour la page About */}
+      <SEO
+        title="TaqwaTech - À propos de Saliou SENE"
+        description="Découvrez l'expertise digitale de Saliou SENE : développement web, intelligence artificielle et marketing digital."
+      />
+
+
+
+
       {/* Hero Section avec Background Énergétique */}
       <section className="tech-hero" style={{
         background: "linear-gradient(to bottom, #0A0F1FAA, #0A0F1F), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&auto=format&q=80') center/cover",

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+
 import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
 import { FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaBullseye, FaCommentDots, FaPaperPlane } from "react-icons/fa";
-
+import SEO from "../components/SEO";
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -131,6 +131,11 @@ const Contact = () => {
           <div className="contact-orb orb-2"></div>
           <div className="communication-waves"></div>
         </div>
+        
+
+
+
+
         
         <div className="container">
           <div className="contact-hero-content text-center">
@@ -282,6 +287,9 @@ const Contact = () => {
                     <div className="input-glow"></div>
                   </div>
 
+
+
+
                   {/* Sujet */}
                   <div className="form-group full-width" data-aos="fade-up" data-aos-delay="200">
                     <label htmlFor="subject" className="form-label-tech">
@@ -353,7 +361,7 @@ const Contact = () => {
             <h2>Questions fréquentes</h2>
             <p>Trouvez rapidement des réponses à vos questions les plus courantes</p>
           </div>
-
+ </div>
           <div className="faq-grid">
             {faqs.map((faq, index) => (
               <div 
@@ -378,6 +386,13 @@ const Contact = () => {
           <div className="faq-cta" data-aos="fade-up">
             <div className="faq-cta-content">
               <h3>Vous avez d'autres questions ?</h3>
+<div className="contact-page">
+      <SEO
+        title="TaqwaTech - Contact"
+        description="Contactez TaqwaTech pour vos projets en développement web, applications et solutions IA sur mesure."
+      />
+
+
               <p>N'hésitez pas à me contacter directement pour toute information supplémentaire</p>
               <div className="faq-cta-actions">
                 <button 

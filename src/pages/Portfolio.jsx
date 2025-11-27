@@ -4,9 +4,15 @@ import { FaCheckCircle, FaShieldAlt, FaBolt } from "react-icons/fa";
 import { FaUser, FaClock } from "react-icons/fa";
 import { FaRocket, FaStar, FaTools } from "react-icons/fa";
 import { FaLaptopCode, FaMobileAlt, FaRobot, FaServer, FaBullhorn, FaComments } from "react-icons/fa";
-
+import SEO from "../components/SEO";
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState("all");
+<div className="portfolio-page">
+      <SEO
+        title="TaqwaTech - Portfolio"
+        description="Découvrez le portfolio de TaqwaTech avec nos projets web, applications et solutions IA réalisés."
+      />
+    </div>
 
   const projects = [
     {
@@ -250,6 +256,9 @@ const Portfolio = () => {
 
   return (
     <div className="portfolio-page-compact">
+      
+
+
       
       {/* Hero Section Compacte */}
       <section className="portfolio-hero-compact">
