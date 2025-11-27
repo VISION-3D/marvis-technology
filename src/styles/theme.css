@@ -7820,3 +7820,103 @@ animation: scrollArrow 1.5s infinite;
     0px 2px 2px rgba(0, 0, 0, 0.20),
     0px 3px 3px rgba(0, 0, 0, 0.15);
 }
+
+.nav-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--primary-500);
+  transition: transform 0.25s ease, color 0.25s ease;
+  filter: drop-shadow(0 0 4px rgba(0, 180, 255, 0.5));
+}
+
+.nav-icon:hover {
+  transform: scale(1.25) translateY(-2px);
+  color: var(--primary-300);
+  filter: drop-shadow(0 0 8px rgba(0, 200, 255, 0.9));
+}
+
+
+
+
+
+.hero-visual {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.energy-core {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 20%;
+  background: radial-gradient(circle, #6C63FF55, #03050b);
+  animation: pulse 2s infinite;
+  z-index: 2;
+}
+
+.icon-orbit {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orbit-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(calc(var(--i) * 90deg)) translateX(220px) rotate(calc(var(--i) * -90deg));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+.orbit-item span {
+  margin-top: 8px;
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Animation circulaire */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+
+
+
+/* Animation de flottement */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Animation de glow/lumière */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+  50% { box-shadow: 0 0 20px rgba(255,255,255,0.8); }
+}
+
+/* Style pour icônes premium */
+.hero-side-bar-horizontal .sidebar-icon {
+  font-size: 2.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+}
+
+.hero-side-bar-horizontal .sidebar-icon:hover {
+  transform: scale(1.4);
+}

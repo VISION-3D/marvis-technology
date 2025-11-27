@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/theme.css";
 import { FaLaptopCode, FaRobot, FaBolt } from "react-icons/fa";
-
+import { FaLightbulb } from "react-icons/fa";
 const Hero = () => {
   return (
     <section
@@ -109,30 +109,39 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Visuels 3D */}
-        <div className="hero-visual">
+  
 
-          {/* Carte Web */}
-          <div className="floating-card card-1 upgraded-card">
-            <div className="card-icon-3d"><FaLaptopCode /></div>
-            <div className="card-text-3d">Développement Web</div>
-          </div>
+{/* Bande horizontale premium à gauche du sous-titre */}
+<div style={{
+  display: "flex",
+  alignItems: "center",  // aligne verticalement texte et icônes
+  gap: "1.5rem",
+  marginTop: "1rem"
+}}>
 
-          {/* Carte IA */}
-          <div className="floating-card card-2 upgraded-card">
-            <div className="card-icon-3d"><FaRobot /></div>
-            <div className="card-text-3d">Intelligence Artificielle</div>
-          </div>
+  {/* Bande d’icônes horizontale */}
+  <div className="hero-side-bar-horizontal" style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+    padding: "0.5rem 1rem",
+    background: "rgba(255, 255, 255, 0.07)",
+    borderRadius: "1rem",
+    backdropFilter: "blur(12px)",
+    boxShadow: "0 0 20px rgba(255,255,255,0.2)"
+  }}>
+    <FaRobot style={{ color: "#EF4444", fontSize: "2.2rem", cursor: "pointer", transition: "0.3s" }} />
+    <FaLaptopCode style={{ color: "#6C63FF", fontSize: "2.2rem", cursor: "pointer", transition: "0.3s" }} />
+    <FaBolt style={{ color: "#FFD700", fontSize: "2.2rem", cursor: "pointer", transition: "0.3s" }} />
+    <FaLightbulb style={{ color: "#10B981", fontSize: "2.2rem", cursor: "pointer", transition: "0.3s" }} />
+  </div>
 
-          {/* Carte Performance */}
-          <div className="floating-card card-3 upgraded-card">
-            <div className="card-icon-3d"><FaBolt /></div>
-            <div className="card-text-3d">Ultra Performance</div>
-          </div>
 
-          {/* Effet Énergie */}
-          <div className="energy-core upgraded-core"></div>
-        </div>
+
+</div>
+
+
+
 
         {/* Scroll */}
         <div

@@ -1,535 +1,555 @@
-// --- NAVBAR COMPLÈTEMENT RESPONSIVE ---
-import React, { useState, useEffect } from "react";
+// --- NAVBAR RÉVOLUTIONNAIRE 3.0 ---
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/theme.css";
-import { FaSearch, FaRobot, FaYoutube, FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaInstagram, FaBars } from "react-icons/fa";
+import { 
+  FaSearch, FaRobot, FaYoutube, FaFacebook, FaTwitter, 
+  FaLinkedin, FaGithub, FaInstagram, FaBars, FaTimes,
+  FaChevronDown, FaGlobe, FaMoon, FaSun
+} from "react-icons/fa";
 import Logo from "../assets/Logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const [activeTab, setActiveTab] = useState("home");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const searchRef = useRef(null);
   const location = useLocation();
 
-  // Détection de la largeur d'écran
+  // Effets de souris et scroll
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const handleMouseMove = (e) => {
+      setCursorPosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Navigation items avec icônes
+const navItems = [
+  { path: "/", label: "Accueil", icon: "⟡", id: "home" },          
+  { path: "/about", label: "À propos", icon: "⧉", id: "about" },     
+  { path: "/services", label: "Services", icon: "⚛", id: "services" }, 
+  { path: "/portfolio", label: "Portfolio", icon: "⌬", id: "portfolio" },
+  { path: "/contact", label: "Contact", icon: "✦", id: "contact" }      
+];
 
-  // Fermer le menu mobile quand on change de page ou redimensionne
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname, windowWidth]);
 
-  const navItems = [
-    { path: "/", label: "Accueil" },
-    { path: "/about", label: "À propos" },
-    { path: "/services", label: "Services" },
-    { path: "/portfolio", label: "Portfolio" },
-    { path: "/savoir-plus", label: "En savoir plus" }
+  // Quick actions avec animations
+  const quickActions = [
+    { icon: <FaRobot />, label: "IA", color: "#8B5CF6", action: () => window.open('/ai-tools') },
+    { icon: <FaYoutube />, label: "YouTube", color: "#FF0000", action: () => window.open('https://youtube.com') },
+    { icon: <FaGithub />, label: "GitHub", color: "#333", action: () => window.open('https://github.com') },
+    { icon: <FaLinkedin />, label: "LinkedIn", color: "#0077B5", action: () => window.open('https://linkedin.com') }
   ];
-
-  const quickAccessItems = [
-    { 
-      name: "Recherche", 
-      icon: <FaSearch />,
-      url: "/search",
-      color: "#3B82F6"
-    },
-    { 
-      name: "IA", 
-      icon: <FaRobot />,
-      url: "/ai-tools",
-      color: "#8B5CF6"
-    },
-    { 
-      name: "YouTube", 
-      icon: <FaYoutube />,
-      url: "https://youtube.com",
-      color: "#FF0000",
-      external: true
-    },
-    { 
-      name: "Facebook", 
-      icon: <FaFacebook />,
-      url: "https://facebook.com",
-      color: "#1877F2",
-      external: true
-    },
-    { 
-      name: "Twitter", 
-      icon: <FaTwitter />,
-      url: "https://twitter.com",
-      color: "#1DA1F2",
-      external: true
-    },
-    { 
-      name: "LinkedIn", 
-      icon: <FaLinkedin />,
-      url: "https://linkedin.com",
-      color: "#0A66C2",
-      external: true
-    },
-    { 
-      name: "GitHub", 
-      icon: <FaGithub />,
-      url: "https://github.com",
-      color: "#333333",
-      external: true
-    },
-    { 
-      name: "Instagram", 
-      icon: <FaInstagram />,
-      url: "https://instagram.com",
-      color: "#E4405F",
-      external: true
-    }
-  ];
-
-  // Détermine l'affichage selon la largeur d'écran
-  const isMobile = windowWidth < 768;
-  const isTablet = windowWidth >= 768 && windowWidth < 1024;
-  const isDesktop = windowWidth >= 1024;
 
   return (
     <>
-      {/* PREMIÈRE BARRE DE NAVIGATION */}
-      <nav
-        className={`tech-navbar ${isScrolled ? "scrolled" : ""}`}
+      {/* EFFET DE CURSEUR PERSONNALISÉ */}
+      <div 
+        className="cursor-trail"
         style={{
-          background: isScrolled ? "rgba(10, 15, 31, 0.97)" : "rgba(10, 15, 31, 0.92)",
-          backdropFilter: "blur(18px)",
-          borderBottom: "1px solid rgba(59, 130, 246, 0.45)",
-          height: isMobile ? "60px" : "75px",
-          position: "fixed",
-          top: isMobile ? "10px" : "15px",
-          left: isMobile ? "3%" : "2.5%",
-          right: isMobile ? "3%" : "2.5%",
-          width: isMobile ? "94%" : "95%",
-          maxWidth: "1400px",
-          borderRadius: "15px",
+          position: 'fixed',
+          left: cursorPosition.x - 10,
+          top: cursorPosition.y - 10,
+          width: '20px',
+          height: '20px',
+          background: 'radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 10000,
+          transition: 'all 0.1s ease-out',
+          mixBlendMode: 'screen'
+        }}
+      />
+
+      {/* NAVBAR PRINCIPALE */}
+      <nav className={`glass-navbar ${isScrolled ? 'scrolled' : ''}`}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '95%',
+          maxWidth: '1200px',
+          background: isScrolled 
+            ? 'rgba(15, 23, 42, 0.95)' 
+            : 'rgba(15, 23, 42, 0.85)',
+          backdropFilter: 'blur(20px)',
+          border: `1px solid ${isScrolled ? 'rgba(59,130,246,0.3)' : 'rgba(59,130,246,0.2)'}`,
+          borderRadius: '25px',
+          padding: '1rem 2rem',
           zIndex: 1000,
-          boxShadow: isScrolled ? "0 10px 40px rgba(0, 0, 0, 0.45)" : "0 5px 25px rgba(0, 0, 0, 0.3)",
-          transition: "0.4s ease-in-out",
-          margin: "0 auto",
+          transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          boxShadow: isScrolled 
+            ? '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59,130,246,0.1)' 
+            : '0 10px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(59,130,246,0.05)'
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            height: "100%",
-            padding: isMobile ? "0 0.8rem" : "0 1.5rem",
-            position: "relative"
-          }}
-        >
-          {/* LOGO */}
-          <Link
-            to="/"
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'relative'
+        }}>
+          
+          {/* LOGO AVEC ANIMATION */}
+          <Link 
+            to="/" 
+            className="logo-container"
             style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              zIndex: 10,
-              flexShrink: 0
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+              position: 'relative',
+              zIndex: 10
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05) rotate(-2deg)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
             }}
           >
-            <img
-              src={Logo}
-              alt="TaqwaTech"
-              style={{
-                width: isMobile ? "40px" : "55px",
-                height: isMobile ? "40px" : "55px",
-                objectFit: "contain",
-                filter: "drop-shadow(0 0 18px rgba(59,130,246,0.7))",
-              }}
-            />
-            <span
-              style={{
-                marginLeft: "8px",
-                fontSize: isMobile ? "0.85rem" : "1rem",
-                fontWeight: "700",
-                background: "linear-gradient(90deg,#ffffff,#b3c8ff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                textShadow: "0 0 12px rgba(59,130,246,0.6)",
-                display: isMobile ? "none" : "block"
-              }}
-            >
+            <div style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <img 
+                src={Logo} 
+                alt="TaqwaTech" 
+                style={{
+                  width: '45px',
+                  height: '45px',
+                  filter: 'drop-shadow(0 0 20px rgba(59,130,246,0.6))',
+                  transition: 'all 0.3s ease'
+                }}
+              />
+              <div className="logo-glow" style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '60px',
+                height: '60px',
+                background: 'radial-gradient(circle, rgba(59,130,246,0.4) 0%, transparent 70%)',
+                borderRadius: '50%',
+                animation: 'pulse 2s infinite'
+              }} />
+            </div>
+            
+            <span style={{
+              marginLeft: '12px',
+              fontSize: '1.3rem',
+              fontWeight: '800',
+              background: 'linear-gradient(135deg, #fff 0%, #b3c8ff 50%, #8B5CF6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 0 30px rgba(59,130,246,0.5)',
+              letterSpacing: '-0.5px'
+            }}>
               TaqwaTech
             </span>
           </Link>
 
-          {/* BOUTON MENU MOBILE */}
-          {isMobile && (
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              style={{
-                background: "rgba(59, 130, 246, 0.2)",
-                border: "1px solid rgba(59, 130, 246, 0.4)",
-                borderRadius: "6px",
-                padding: "0.4rem",
-                color: "#fff",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "36px",
-                height: "36px"
-              }}
-            >
-              <FaBars size={16} />
-            </button>
-          )}
-
-          {/* MENU PRINCIPAL - DESKTOP/TABLETTE */}
-          {!isMobile && (
-            <div
-              style={{
-                display: "flex",
-                gap: isTablet ? "0.5rem" : "0.8rem",
-                alignItems: "center",
-                position: "relative",
-                flexWrap: "wrap",
-                justifyContent: "center"
-              }}
-            >
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  style={{
-                    color: location.pathname === item.path ? "#fff" : "#bcd1ff",
-                    textDecoration: "none",
-                    fontWeight: "500",
-                    padding: isTablet ? "0.4rem 0.7rem" : "0.5rem 1rem",
-                    borderRadius: "8px",
-                    transition: "all 0.25s ease-in-out",
-                    background: location.pathname === item.path
-                      ? "rgba(59,130,246,0.25)"
-                      : "transparent",
-                    textShadow: location.pathname === item.path
-                      ? "0 0 12px rgba(59,130,246,0.8)"
-                      : "none",
-                    fontSize: isTablet ? "0.8rem" : "0.9rem",
-                    whiteSpace: "nowrap"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.color = "#fff";
-                    e.target.style.background = "rgba(59,130,246,0.12)";
-                    e.target.style.transform = "translateY(-1px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (location.pathname !== item.path) {
-                      e.target.style.color = "#bcd1ff";
-                      e.target.style.background = "transparent";
-                      e.target.style.transform = "translateY(0)";
-                    }
-                  }}
-                >
-                  {isTablet && item.label.length > 8 ? item.label.substring(0, 6) + "..." : item.label}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {/* BOUTON CONTACT - DESKTOP/TABLETTE */}
-          {!isMobile && (
-            <Link
-              to="/contact"
-              style={{
-                padding: isTablet ? "0.5rem 1rem" : "0.6rem 1.5rem",
-                borderRadius: "10px",
-                fontWeight: "600",
-                color: "#fff",
-                border: "1px solid rgba(59,130,246,0.55)",
-                background: "linear-gradient(135deg,rgba(59,130,246,0.35),rgba(147,51,234,0.4))",
-                textShadow: "0 0 12px rgba(59,130,246,0.8)",
-                transition: "all 0.3s ease-in-out",
-                textDecoration: "none",
-                fontSize: isTablet ? "0.8rem" : "0.9rem",
-                whiteSpace: "nowrap",
-                flexShrink: 0
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-1px)";
-                e.target.style.boxShadow = "0 5px 15px rgba(59,130,246,0.4)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow = "none";
-              }}
-            >
-              {isTablet ? "Contact" : "Me contacter"}
-            </Link>
-          )}
-        </div>
-
-        {/* MENU MOBILE OVERLAY */}
-        {isMobile && isMobileMenuOpen && (
-          <div
-            style={{
-              position: "fixed",
-              top: "0",
-              left: "0",
-              width: "100%",
-              height: "100vh",
-              background: "rgba(10, 15, 31, 0.98)",
-              backdropFilter: "blur(20px)",
-              zIndex: 999,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "2rem"
-            }}
-          >
-            {/* BOUTON FERMER */}
-            <button
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{
-                position: "absolute",
-                top: "1.5rem",
-                right: "1.5rem",
-                background: "rgba(59, 130, 246, 0.2)",
-                border: "1px solid rgba(59, 130, 246, 0.4)",
-                borderRadius: "6px",
-                padding: "0.5rem",
-                color: "#fff",
-                cursor: "pointer",
-                width: "40px",
-                height: "40px"
-              }}
-            >
-              ✕
-            </button>
-
-            {/* LIENS MOBILE */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "280px"
-              }}
-            >
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  style={{
-                    color: location.pathname === item.path ? "#3B82F6" : "#fff",
-                    textDecoration: "none",
-                    fontWeight: "600",
-                    fontSize: "1.1rem",
-                    padding: "1rem 1.5rem",
-                    borderRadius: "10px",
-                    background: location.pathname === item.path
-                      ? "rgba(59, 130, 246, 0.15)"
-                      : "transparent",
-                    border: location.pathname === item.path
-                      ? "1px solid rgba(59, 130, 246, 0.4)"
-                      : "1px solid transparent",
-                    width: "100%",
-                    textAlign: "center",
-                    transition: "all 0.3s ease"
-                  }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-
-              {/* BOUTON CONTACT MOBILE */}
+          {/* NAVIGATION CENTRALE - DESKTOP */}
+          <div className="nav-center" style={{
+            display: window.innerWidth > 1024 ? 'flex' : 'none',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'rgba(30, 41, 59, 0.5)',
+            borderRadius: '18px',
+            padding: '0.5rem',
+            border: '1px solid rgba(59,130,246,0.15)'
+          }}>
+            {navItems.map((item) => (
               <Link
-                to="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
+                key={item.path}
+                to={item.path}
+                className={`nav-tab ${location.pathname === item.path ? 'active' : ''}`}
                 style={{
-                  padding: "1rem 1.5rem",
-                  borderRadius: "10px",
-                  fontWeight: "600",
-                  color: "#fff",
-                  border: "1px solid rgba(59,130,246,0.6)",
-                  background: "linear-gradient(135deg,rgba(59,130,246,0.4),rgba(147,51,234,0.5))",
-                  textShadow: "0 0 12px rgba(59,130,246,0.8)",
-                  textDecoration: "none",
-                  fontSize: "1.1rem",
-                  marginTop: "1rem",
-                  width: "100%",
-                  textAlign: "center"
-                }}
-              >
-                Me contacter
-              </Link>
-            </div>
-          </div>
-        )}
-
-        {/* BANDE ANIMÉE SOUS LA NAV */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "0",
-            left: "0",
-            height: "3px",
-            width: "100%",
-            background: "linear-gradient(90deg, #3B82F6, #8B5CF6, #06B6D4, #3B82F6)",
-            backgroundSize: "300% 100%",
-            animation: "scrollLine 5s linear infinite",
-            boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
-            borderRadius: "0 0 15px 15px"
-          }}
-        />
-      </nav>
-
-      {/* DEUXIÈME BARRE - ACCÈS RAPIDE */}
-      {!isMobile && (
-        <div
-          style={{
-            position: "fixed",
-            top: isTablet ? "85px" : "105px",
-            left: isTablet ? "3%" : "2.5%",
-            right: isTablet ? "3%" : "2.5%",
-            width: isTablet ? "94%" : "95%",
-            maxWidth: "1400px",
-            height: "50px",
-            background: "rgba(15, 23, 42, 0.85)",
-            backdropFilter: "blur(15px)",
-            border: "1px solid rgba(59, 130, 246, 0.3)",
-            borderRadius: "10px",
-            zIndex: 998,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: isTablet ? "0 1rem" : "0 1.5rem",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
-            margin: "0 auto"
-          }}
-        >
-          {/* TITRE ACCÈS RAPIDE */}
-          <div
-            style={{
-              display: isTablet ? "none" : "flex",
-              alignItems: "center",
-              color: "#bcd1ff",
-              fontWeight: "600",
-              fontSize: "0.85rem",
-              textShadow: "0 0 10px rgba(59,130,246,0.5)",
-              minWidth: "110px"
-            }}
-          >
-            <span style={{ marginRight: "8px", fontSize: "1rem" }}>⚡</span>
-            Accès Rapide:
-          </div>
-
-          {/* ICÔNES D'ACCÈS RAPIDE */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: isTablet ? "0.6rem" : "1rem",
-              flex: 1,
-              justifyContent: "center",
-              maxWidth: "500px",
-              margin: "0 auto"
-            }}
-          >
-            {quickAccessItems.slice(0, isTablet ? 6 : 8).map((item, index) => (
-              <a
-                key={index}
-                href={item.url}
-                target={item.external ? "_blank" : "_self"}
-                rel={item.external ? "noopener noreferrer" : ""}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textDecoration: "none",
-                  color: "#bcd1ff",
-                  transition: "all 0.3s ease-in-out",
-                  padding: isTablet ? "0.2rem 0.4rem" : "0.3rem 0.6rem",
-                  borderRadius: "6px",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '0.7rem 1.2rem',
+                  borderRadius: '14px',
+                  textDecoration: 'none',
+                  color: location.pathname === item.path ? '#fff' : '#94a3b8',
+                  background: location.pathname === item.path 
+                    ? 'linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2))'
+                    : 'transparent',
+                  border: location.pathname === item.path 
+                    ? '1px solid rgba(59,130,246,0.4)'
+                    : '1px solid transparent',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.color = "#fff";
-                  e.target.style.transform = "translateY(-2px)";
-                  e.target.style.background = `rgba(${parseInt(item.color.slice(1, 3), 16)}, ${parseInt(item.color.slice(3, 5), 16)}, ${parseInt(item.color.slice(5, 7), 16)}, 0.15)`;
+                  if (location.pathname !== item.path) {
+                    e.currentTarget.style.background = 'rgba(59,130,246,0.1)';
+                    e.currentTarget.style.color = '#e2e8f0';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.color = "#bcd1ff";
-                  e.target.style.transform = "translateY(0)";
-                  e.target.style.background = "transparent";
+                  if (location.pathname !== item.path) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#94a3b8';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }
                 }}
               >
-                <span style={{ 
-                  fontSize: isTablet ? "1rem" : "1.1rem", 
-                  marginBottom: "1px" 
-                }}>
-                  {item.icon}
-                </span>
-                <span
-                  style={{
-                    fontSize: isTablet ? "0.55rem" : "0.65rem",
-                    fontWeight: "500",
-                  }}
-                >
-                  {item.name}
-                </span>
-              </a>
+                <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
+                {item.label}
+                
+                {/* INDICATEUR ACTIF */}
+                {location.pathname === item.path && (
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '2px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '20px',
+                    height: '2px',
+                    background: 'linear-gradient(90deg, #3B82F6, #8B5CF6)',
+                    borderRadius: '2px'
+                  }} />
+                )}
+              </Link>
             ))}
           </div>
 
-          {/* BARRE DE RECHERCHE */}
-          <div
-            style={{
-              display: isTablet ? "none" : "flex",
-              alignItems: "center",
-              background: "rgba(59, 130, 246, 0.1)",
-              border: "1px solid rgba(59, 130, 246, 0.3)",
-              borderRadius: "6px",
-              padding: "0.2rem 0.6rem",
-              minWidth: "150px"
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Rechercher..."
+          {/* ACTIONS DROITE */}
+          <div className="nav-actions" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem'
+          }}>
+            
+            {/* RECHERCHE AVANCÉE */}
+            <div ref={searchRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="search-btn"
+                style={{
+                  background: 'rgba(59,130,246,0.1)',
+                  border: '1px solid rgba(59,130,246,0.3)',
+                  borderRadius: '12px',
+                  padding: '0.6rem',
+                  color: '#e2e8f0',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(59,130,246,0.2)';
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(59,130,246,0.1)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <FaSearch size={16} />
+              </button>
+
+              {/* PANEL RECHERCHE */}
+              {isSearchOpen && (
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '10px',
+                  background: 'rgba(15, 23, 42, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(59,130,246,0.3)',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  width: '300px',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
+                  zIndex: 1001
+                }}>
+                  <input
+                    type="text"
+                    placeholder="Rechercher... 🔍"
+                    style={{
+                      width: '100%',
+                      background: 'rgba(30, 41, 59, 0.6)',
+                      border: '1px solid rgba(59,130,246,0.2)',
+                      borderRadius: '10px',
+                      padding: '0.8rem 1rem',
+                      color: '#fff',
+                      fontSize: '0.9rem',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* BOUTON MODE SOMBRE */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="theme-btn"
               style={{
-                background: "transparent",
-                border: "none",
-                outline: "none",
-                color: "#fff",
-                fontSize: "0.75rem",
-                width: "100%",
-                padding: "0.2rem"
+                background: 'rgba(139,92,246,0.1)',
+                border: '1px solid rgba(139,92,246,0.3)',
+                borderRadius: '12px',
+                padding: '0.6rem',
+                color: '#e2e8f0',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
               }}
-            />
+            >
+              {darkMode ? <FaSun size={16} /> : <FaMoon size={16} />}
+            </button>
+
+            {/* BOUTON MENU MOBILE */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="mobile-menu-btn"
+              style={{
+                display: window.innerWidth <= 1024 ? 'flex' : 'none',
+                background: 'rgba(59,130,246,0.1)',
+                border: '1px solid rgba(59,130,246,0.3)',
+                borderRadius: '12px',
+                padding: '0.6rem',
+                color: '#e2e8f0',
+                cursor: 'pointer',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {isMobileMenuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
+            </button>
+          </div>
+        </div>
+
+        {/* BARRE DE PROGRESSION */}
+        <div className="nav-progress" style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          height: '2px',
+          background: 'linear-gradient(90deg, #3B82F6, #8B5CF6, #06B6D4)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 3s infinite linear',
+          borderRadius: '0 0 25px 25px',
+          transform: 'scaleX(0.7)',
+          transformOrigin: 'left'
+        }} />
+      </nav>
+
+      {/* MENU MOBILE AVANCÉ */}
+      {isMobileMenuOpen && window.innerWidth <= 1024 && (
+        <div className="mobile-menu-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100vh',
+            background: 'rgba(15, 23, 42, 0.98)',
+            backdropFilter: 'blur(30px)',
+            zIndex: 999,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '6rem 2rem 2rem'
+          }}
+        >
+          {/* LIENS MOBILE */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            alignItems: 'center'
+          }}>
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  padding: '1.2rem 2rem',
+                  borderRadius: '16px',
+                  textDecoration: 'none',
+                  color: location.pathname === item.path ? '#3B82F6' : '#e2e8f0',
+                  background: location.pathname === item.path 
+                    ? 'rgba(59,130,246,0.15)' 
+                    : 'rgba(30, 41, 59, 0.6)',
+                  border: location.pathname === item.path 
+                    ? '1px solid rgba(59,130,246,0.4)' 
+                    : '1px solid rgba(59,130,246,0.1)',
+                  width: '100%',
+                  maxWidth: '300px',
+                  fontSize: '1.1rem',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <span style={{ fontSize: '1.3rem' }}>{item.icon}</span>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* ACTIONS RAPIDES MOBILE */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '1rem',
+            marginTop: '3rem',
+            flexWrap: 'wrap'
+          }}>
+            {quickActions.map((action, index) => (
+              <button
+                key={index}
+                onClick={action.action}
+                style={{
+                  background: 'rgba(30, 41, 59, 0.6)',
+                  border: `1px solid ${action.color}30`,
+                  borderRadius: '12px',
+                  padding: '0.8rem',
+                  color: action.color,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {action.icon}
+              </button>
+            ))}
           </div>
         </div>
       )}
 
+      {/* BARRE D'ACCÈS RAPIDE FLOATING */}
+      {window.innerWidth > 768 && (
+        <div className="quick-access-bar"
+          style={{
+            position: 'fixed',
+            top: '50%',
+            right: '20px',
+            transform: 'translateY(-50%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.8rem',
+            zIndex: 999,
+            background: 'rgba(15, 23, 42, 0.8)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(59,130,246,0.2)',
+            borderRadius: '20px',
+            padding: '1rem 0.5rem',
+            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          {quickActions.map((action, index) => (
+            <button
+              key={index}
+              onClick={action.action}
+              className="quick-action-btn"
+              style={{
+                background: 'rgba(30, 41, 59, 0.6)',
+                border: `1px solid ${action.color}30`,
+                borderRadius: '12px',
+                padding: '0.7rem',
+                color: action.color,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = `${action.color}20`;
+                e.currentTarget.style.transform = 'scale(1.1) translateX(-5px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(30, 41, 59, 0.6)';
+                e.currentTarget.style.transform = 'scale(1) translateX(0)';
+              }}
+            >
+              {action.icon}
+            </button>
+          ))}
+        </div>
+      )}
+
       <style>{`
-        @keyframes scrollLine {
-          0% { background-position: 0% 0; }
-          100% { background-position: 300% 0; }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+          50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+
+        .glass-navbar {
+          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .glass-navbar.scrolled {
+          transform: translateX(-50%) scale(0.98);
+          top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .nav-center { display: none !important; }
+          .glass-navbar { padding: 1rem 1.5rem; }
+        }
+
+        @media (max-width: 768px) {
+          .glass-navbar { 
+            width: 90% !important;
+            padding: 0.8rem 1rem;
+          }
+          .quick-access-bar { display: none !important; }
+        }
+
+        @media (max-width: 480px) {
+          .glass-navbar { 
+            width: 92% !important;
+            top: 10px !important;
+          }
+          .logo-container span { display: none !important; }
         }
       `}</style>
 
-      {/* Espace réservé pour la hauteur des barres */}
-      <div style={{ 
-        height: isMobile ? "80px" : isTablet ? "150px" : "180px" 
-      }}></div>
+      {/* ESPACE POUR LA NAVBAR */}
+      <div style={{ height: '140px' }} />
     </>
   );
 };
