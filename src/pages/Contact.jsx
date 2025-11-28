@@ -137,21 +137,37 @@ const Contact = () => {
 
 
         
-        <div className="container">
-          <div className="contact-hero-content text-center">
-            <div className="tech-badge-contact" data-aos="fade-down">
-              <span className="pulse-dot-contact"></span>
-              Contact
-            </div>
-            
-            <h1 className="contact-hero-title" data-aos="fade-up">
-              Discutons de votre <span className="tech-gradient-text">projet</span>
-            </h1>
-            
-            <p className="contact-hero-description" data-aos="fade-up" data-aos-delay="200">
-              Vous avez une idée de projet ? Envie de collaborer ? 
-              Contactez-moi et je vous répondrai dans les plus brefs délais.
-            </p>
+        <div
+  className="container"
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    minHeight: "60vh", // ajuste selon le rendu souhaité
+    gap: "1rem",
+  }}
+>
+  <div className="contact-hero-content">
+    <div className="tech-badge-contact" data-aos="fade-down">
+      <span className="pulse-dot-contact"></span>
+      Contact
+    </div>
+
+    <h1 className="contact-hero-title" data-aos="fade-up">
+      Discutons de votre <span className="tech-gradient-text">projet</span>
+    </h1>
+
+    <p
+      className="contact-hero-description"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      Vous avez une idée de projet ? Envie de collaborer ? 
+      Contactez-moi et je vous répondrai dans les plus brefs délais.
+    </p>
+  
 
             {/* Communication Indicators */}
             <div className="communication-indicators" data-aos="fade-up" data-aos-delay="400">

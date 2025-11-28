@@ -45,6 +45,12 @@ const handleSearch = (query) => {
       }
     };
 
+
+
+
+
+
+    
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside);
@@ -64,6 +70,18 @@ const navItems = [
   { path: "/portfolio", label: "Portfolio", icon: "⌬", id: "portfolio" },
   { path: "/contact", label: "Contact", icon: "✦", id: "contact" }      
 ];
+
+// Effet pour appliquer le thème sombre / clair avec "Blue Énergie"
+useEffect(() => {
+  const body = document.body;
+  if (darkMode) {
+    body.style.backgroundColor = "#0F172A"; // fond sombre
+    body.style.color = "#ebeff2ff"; // texte Blue Énergie
+  } else {
+    body.style.backgroundColor = "#010026ff"; // fond clair Blue Énergie éclaire
+    body.style.color = "#ffffffff"; // texte sombre
+  }
+}, [darkMode]);
 
 
   // Quick actions avec animations
@@ -348,21 +366,23 @@ const navItems = [
             </div>
 
             {/* BOUTON MODE SOMBRE */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="theme-btn"
-              style={{
-                background: 'rgba(139,92,246,0.1)',
-                border: '1px solid rgba(139,92,246,0.3)',
-                borderRadius: '12px',
-                padding: '0.6rem',
-                color: '#e2e8f0',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              {darkMode ? <FaSun size={16} /> : <FaMoon size={16} />}
-            </button>
+           <button
+  onClick={() => setDarkMode(!darkMode)}
+  className="theme-btn"
+  style={{
+    background: darkMode ? "#3399FF" : "#E0F7FF",  // couleur selon le mode
+    border: '1px solid #3399FF',
+    borderRadius: '12px',
+    padding: '0.6rem',
+    color: darkMode ? "#fff" : "#0F172A",
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    zIndex: 1001
+  }}
+>
+  {darkMode ? <FaSun size={16} /> : <FaMoon size={16} />}
+</button>
+
 
             {/* BOUTON MENU MOBILE */}
             <button

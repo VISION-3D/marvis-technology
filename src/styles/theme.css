@@ -7950,3 +7950,60 @@ animation: scrollArrow 1.5s infinite;
 .pricing-label {
   color: #0A0F1F !important; /* texte sombre sur bouton blanc si nécessaire */
 }
+
+
+
+
+
+/* Ajoute ça dans theme.css ou dans un <style> global */
+:root {
+  --blue-energie-eclaire: #3399FF; /* Ta couleur Blue Énergie Éclairé */
+}
+
+/* Appliquer à tout le texte, boutons, liens et input */
+body.light, body.dark {
+  color: var(--blue-energie-eclaire) !important;
+}
+
+button, a, span, input {
+  color: var(--blue-energie-eclaire) !important;
+  border-color: var(--blue-energie-eclaire) !important;
+  background-color: transparent !important; /* optionnel si tu veux garder fond transparent */
+}
+
+
+/* Crépuscule sombre avec étoiles animées */
+body.crepuscule-sombre {
+  background: linear-gradient(to bottom, #0B3D91, #120B2E);
+  color: #E0F7FF; /* texte clair */
+  transition: all 1s ease;
+  background-image: radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px);
+  background-size: 25px 25px, 25px 25px;
+  background-position: 0 0, 12px 12px;
+  animation: starsAnim 10s linear infinite;
+}
+
+/* Crépuscule clair bleu ciel avec étoiles légères */
+body.crepuscule-clair {
+  background: linear-gradient(to bottom, #87CEFA, #FFEBCD);
+  color: #0D1B2A; /* texte sombre */
+  transition: all 1s ease;
+  background-image: radial-gradient(white 0.5px, transparent 0.5px), radial-gradient(white 0.5px, transparent 0.5px);
+  background-size: 30px 30px, 30px 30px;
+  background-position: 0 0, 15px 15px;
+  animation: starsAnimLight 20s linear infinite;
+}
+
+/* Animations étoiles */
+@keyframes starsAnim {
+  0% { background-position: 0 0, 12px 12px; }
+  100% { background-position: 0 -500px, 12px -500px; }
+}
+
+@keyframes starsAnimLight {
+  0% { background-position: 0 0, 15px 15px; }
+  100% { background-position: 0 -300px, 15px -300px; }
+}
+
+
+
