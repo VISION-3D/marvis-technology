@@ -5,14 +5,10 @@ import { FaUser, FaClock } from "react-icons/fa";
 import { FaRocket, FaStar, FaTools } from "react-icons/fa";
 import { FaLaptopCode, FaMobileAlt, FaRobot, FaServer, FaBullhorn, FaComments } from "react-icons/fa";
 import SEO from "../components/SEO";
+
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState("all");
-<div className="portfolio-page">
-      <SEO
-        title="TaqwaTech - Portfolio"
-        description="Découvrez le portfolio de TaqwaTech avec nos projets web, applications et solutions IA réalisés."
-      />
-    </div>
+  const [hoveredProject, setHoveredProject] = useState(null);
 
   const projects = [
     {
@@ -132,17 +128,17 @@ const Portfolio = () => {
   ];
 
   const stats = [
-    { number: "+30", label: "Projets Effectués", icon: <FaRocket color="#6C63FF" /> },
-    { number: "100%", label: "Satisfaction", icon: <FaStar color="#FBBF24" /> },
-    { number: "+15", label: "Technologies Maîtrisées", icon: <FaTools color="#10B981" /> },
-    { number: "100%", label: "Délais Respectés", icon: <FaClock color="#EF4444" /> }
+    { number: "+30", label: "Projets Effectués", icon: <FaRocket /> },
+    { number: "100%", label: "Satisfaction", icon: <FaStar /> },
+    { number: "+15", label: "Technologies Maîtrisées", icon: <FaTools /> },
+    { number: "100%", label: "Délais Respectés", icon: <FaClock /> }
   ];
 
   const filteredProjects = activeFilter === "all" 
     ? projects 
     : projects.filter(project => project.category === activeFilter);
 
-  const ProjectCard = ({ project }) => {
+  const ProjectCard = ({ project, index }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const getStatusColor = (status) => {
@@ -164,44 +160,142 @@ const Portfolio = () => {
     };
 
     return (
-      <div className="project-card-compact">
+      <div 
+        className="project-card"
+        style={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '1.5rem',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+          backdropFilter: 'blur(20px)',
+          position: 'relative'
+        }}
+        onMouseEnter={() => setHoveredProject(index)}
+        onMouseLeave={() => setHoveredProject(null)}
+      >
         {/* Badge Featured */}
         {project.featured && (
-          <div className="featured-badge-compact">
-            <span>⭐</span>
+          <div style={{
+            position: 'absolute',
+            top: '1rem',
+            left: '1rem',
+            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+            color: '#000',
+            padding: '0.5rem 1rem',
+            borderRadius: '50px',
+            fontSize: '0.8rem',
+            fontWeight: '600',
+            zIndex: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <FaStar />
             Projet Vedette
           </div>
         )}
 
         {/* Image du Projet */}
-        <div className="project-image-compact">
+        <div style={{
+          position: 'relative',
+          overflow: 'hidden',
+          height: '250px'
+        }}>
           {!imageLoaded && (
-            <div className="image-skeleton-compact"></div>
+            <div style={{
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+              backgroundSize: '200% 100%',
+              animation: 'loading 1.5s infinite'
+            }}></div>
           )}
           <img 
             src={project.img} 
             alt={project.title}
             onLoad={() => setImageLoaded(true)}
-            style={{ opacity: imageLoaded ? 1 : 0 }}
+            style={{ 
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'all 0.3s ease',
+              transform: hoveredProject === index ? 'scale(1.1)' : 'scale(1)'
+            }}
           />
           
           {/* Overlay avec Actions */}
-          <div className="project-overlay-compact">
-            <div className="project-actions-compact">
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: hoveredProject === index ? 1 : 0,
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              display: 'flex',
+              gap: '1rem'
+            }}>
               {project.demoLink && (
                 <a 
                   href={project.demoLink} 
-                  className="action-btn-compact demo-btn-compact"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    color: '#667eea',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '50px',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#ffffff';
+                    e.target.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.9)';
+                    e.target.style.transform = 'translateY(0)';
+                  }}
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
                   <span>👁️</span>
-                  Voir
+                  Voir le projet
                 </a>
               )}
               
               <button 
-                className="action-btn-compact code-btn-compact"
+                style={{
+                  background: 'transparent',
+                  border: '2px solid rgba(255, 255, 255, 0.9)',
+                  color: 'white',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '50px',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.target.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'transparent';
+                  e.target.style.transform = 'translateY(0)';
+                }}
                 onClick={() => {
                   if (project.codeLink) {
                     window.open(project.codeLink, '_blank');
@@ -211,40 +305,100 @@ const Portfolio = () => {
                 }}
               >
                 <span>💻</span>
-                Code
+                Code Source
               </button>
             </div>
           </div>
 
           {/* Status Badge */}
           <div 
-            className="project-status-compact"
-            style={{ backgroundColor: getStatusColor(project.status) }}
+            style={{ 
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
+              background: getStatusColor(project.status),
+              color: 'white',
+              padding: '0.5rem 1rem',
+              borderRadius: '50px',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+              zIndex: 2
+            }}
           >
             {getStatusText(project.status)}
           </div>
         </div>
 
         {/* Contenu du Projet */}
-        <div className="project-content-compact">
-          <h3 className="project-title-compact">{project.title}</h3>
+        <div style={{ padding: '2rem' }}>
+          <h3 style={{ 
+            margin: '0 0 1rem 0',
+            fontSize: '1.3rem',
+            fontWeight: '700',
+            color: '#ffffff'
+          }}>
+            {project.title}
+          </h3>
           
-          <p className="project-description-compact">{project.description}</p>
+          <p style={{ 
+            color: '#e0e0e0',
+            lineHeight: '1.6',
+            marginBottom: '1.5rem'
+          }}>
+            {project.description}
+          </p>
 
           {/* Informations Client */}
-          <div className="project-meta-compact">
-            <span className="client-info">
-              <FaUser /> {project.client}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1.5rem',
+            padding: '1rem',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '1rem'
+          }}>
+            <span style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              color: '#e0e0e0',
+              fontSize: '0.9rem'
+            }}>
+              <FaUser color="#667eea" />
+              {project.client}
             </span>
-            <span className="duration-info">
-              <FaClock /> {project.duration}
+            <span style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              color: '#e0e0e0',
+              fontSize: '0.9rem'
+            }}>
+              <FaClock color="#667eea" />
+              {project.duration}
             </span>
           </div>
           
           {/* Technologies Utilisées */}
-          <div className="project-tech-compact">
-            {project.tech.map((technology, index) => (
-              <span key={index} className="tech-tag-compact">
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.5rem'
+          }}>
+            {project.tech.map((technology, techIndex) => (
+              <span 
+                key={techIndex} 
+                style={{
+                  background: 'rgba(102, 126, 234, 0.2)',
+                  color: '#667eea',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '50px',
+                  fontSize: '0.8rem',
+                  fontWeight: '500',
+                  border: '1px solid rgba(102, 126, 234, 0.3)'
+                }}
+              >
                 {technology}
               </span>
             ))}
@@ -255,172 +409,367 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="portfolio-page-compact">
-      
+    <div className="portfolio-page" style={{ paddingTop: '80px' }}>
+      <SEO
+        title="TaqwaTech - Portfolio"
+        description="Découvrez le portfolio de TaqwaTech avec nos projets web, applications et solutions IA réalisés."
+      />
 
+      {/* Hero Section Portfolio */}
+      <section style={{
+        background: `
+          linear-gradient(135deg, 
+            rgba(10, 15, 31, 0.98) 0%,
+            rgba(20, 30, 70, 0.95) 50%,
+            rgba(10, 15, 31, 0.98) 100%
+          ),
+          url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="hex" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M30 0L60 15V45L30 60L0 45V15Z" fill="none" stroke="rgba(120, 119, 198, 0.08)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="rgba(10, 15, 31, 1)"/><rect width="100%" height="100%" fill="url(%23hex)"/></svg>')
+        `,
+        minHeight: '70vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        color: '#ffffff',
+        textAlign: 'center',
+        padding: '4rem 1rem'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 2
+        }}>
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
+            border: '1px solid rgba(102, 126, 234, 0.3)',
+            padding: '1rem 2rem',
+            borderRadius: '50px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            marginBottom: '2rem',
+            backdropFilter: 'blur(20px)'
+          }}>
+            <span style={{
+              backgroundColor: "#667eea",
+              marginRight: '1rem',
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              animation: 'pulse 2s infinite'
+            }}></span>
+            Mon Portfolio
+          </div>
+          
+          <h1 style={{ 
+            fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+            marginBottom: '1.5rem',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundSize: '200% 200%',
+            animation: 'gradientShift 6s ease infinite'
+          }}>
+            Mes <span style={{ color: '#ffffff' }}>Réalisations</span>
+          </h1>
+          
+          <p style={{ 
+            maxWidth: '600px',
+            margin: '0 auto 3rem',
+            fontSize: '1.2rem',
+            lineHeight: '1.6',
+            color: '#e0e0e0'
+          }}>
+            Découvrez une sélection de mes projets de développement web, applications mobiles, 
+            solutions d'intelligence artificielle et stratégies digitales.
+          </p>
 
-      
-      {/* Hero Section Compacte */}
-      <section className="portfolio-hero-compact">
-        <div className="container">
-          <div className="portfolio-hero-content-compact text-center">
-            <div className="tech-badge-portfolio-compact">
-              <span className="pulse-dot-tech"></span>
-              Mon Portfolio
-            </div>
-            
-            <h1 className="portfolio-hero-title-compact">
-              Mes <span className="tech-gradient-text">Réalisations</span>
-            </h1>
-            
-            <p className="portfolio-hero-description-compact">
-              Découvrez une sélection de mes projets de développement web, applications mobiles, 
-              solutions d'intelligence artificielle et stratégies digitales.
-            </p>
-
-            {/* Stats Compactes */}
-            <div className="portfolio-stats-compact">
-              {stats.map((stat, index) => (
-                <div key={index} className="portfolio-stat-compact">
-                  <div className="stat-icon-compact">{stat.icon}</div>
-                  <div className="stat-number-compact">{stat.number}</div>
-                  <div className="stat-label-compact">{stat.label}</div>
+          {/* Stats */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '3rem',
+            flexWrap: 'wrap',
+            marginBottom: '3rem'
+          }}>
+            {stats.map((stat, index) => (
+              <div key={index} style={{
+                textAlign: 'center',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '1.5rem',
+                padding: '2rem 1.5rem',
+                minWidth: '150px',
+                backdropFilter: 'blur(15px)',
+                transition: 'all 0.3s ease'
+              }}>
+                <div style={{ 
+                  fontSize: '2.5rem',
+                  marginBottom: '1rem',
+                  background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  {stat.icon}
                 </div>
-              ))}
-            </div>
+                <div style={{ 
+                  fontSize: '2rem',
+                  marginBottom: '0.5rem',
+                  fontWeight: '700',
+                  color: '#ffffff'
+                }}>
+                  {stat.number}
+                </div>
+                <div style={{ 
+                  color: "#e0e0e0",
+                  fontSize: '0.9rem',
+                  fontWeight: '500'
+                }}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Filtres Compacts */}
-      <section className="portfolio-filters-compact">
-        <div className="container">
-          <div className="filters-container-compact">
-            {filters.map((filter, index) => (
+      {/* Filtres */}
+      <section style={{
+        background: 'linear-gradient(135deg, #0A0F1F 0%, #151F3F 100%)',
+        padding: '3rem 1rem',
+        position: 'sticky',
+        top: '80px',
+        zIndex: 100,
+        backdropFilter: 'blur(20px)'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            {filters.map((filter) => (
               <button
                 key={filter.id}
-                className={`filter-btn-compact ${activeFilter === filter.id ? 'active' : ''}`}
+                style={{
+                  background: activeFilter === filter.id 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
+                    : 'rgba(255, 255, 255, 0.08)',
+                  border: activeFilter === filter.id ? 'none' : '1px solid rgba(255, 255, 255, 0.2)',
+                  color: activeFilter === filter.id ? '#ffffff' : '#e0e0e0',
+                  padding: '1rem 1.5rem',
+                  borderRadius: '50px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  backdropFilter: 'blur(10px)'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeFilter !== filter.id) {
+                    e.target.style.background = 'rgba(102, 126, 234, 0.2)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeFilter !== filter.id) {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                  }
+                }}
                 onClick={() => setActiveFilter(filter.id)}
               >
-                <span className="filter-icon-compact">{filter.icon}</span>
-                <span className="filter-text-compact">{filter.label}</span>
-                <span className="filter-count-compact">{filter.count}</span>
+                <span>{filter.icon}</span>
+                <span>{filter.label}</span>
+                <span style={{
+                  background: activeFilter === filter.id ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '20px',
+                  fontSize: '0.8rem'
+                }}>
+                  {filter.count}
+                </span>
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Grid des Projets avec Espace Optimisé */}
-      <section className="portfolio-grid-compact">
-        <div className="container">
-          <div className="projects-grid-compact">
-            {filteredProjects.map((project, index) => (
-              <ProjectCard key={index} project={project} />
-            ))}
-          </div>
-
-          {/* Message si aucun projet */}
-          {filteredProjects.length === 0 && (
-            <div className="no-projects-message-compact">
-              <div className="no-projects-icon">🔍</div>
-              <h3>Aucun projet trouvé</h3>
-              <p>Aucun projet ne correspond aux filtres sélectionnés.</p>
+      {/* Grid des Projets */}
+      <section style={{
+        background: 'linear-gradient(135deg, #0A0F1F 0%, #151F3F 50%, #0A0F1F 100%)',
+        padding: '4rem 1rem',
+        minHeight: '60vh'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}>
+          {filteredProjects.length > 0 ? (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+              gap: '2rem'
+            }}>
+              {filteredProjects.map((project, index) => (
+                <ProjectCard key={index} project={project} index={index} />
+              ))}
+            </div>
+          ) : (
+            <div style={{
+              textAlign: 'center',
+              padding: '4rem 2rem',
+              background: 'rgba(255, 255, 255, 0.05)',
+              borderRadius: '2rem',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🔍</div>
+              <h3 style={{ color: '#ffffff', marginBottom: '1rem' }}>Aucun projet trouvé</h3>
+              <p style={{ color: '#e0e0e0' }}>Aucun projet ne correspond aux filtres sélectionnés.</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Section Expertise Compacte */}
-      <section className="expertise-section-compact">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-6">
-              <h2 className="expertise-title">Pourquoi choisir mes services ?</h2>
-              <div className="expertise-features">
-                <div className="expertise-feature">
-                  <FaCheckCircle className="feature-icon" />
-                  <div>
-                    <h4>Solutions Sur Mesure</h4>
-                    <p>Chaque projet est unique et adapté à vos besoins spécifiques</p>
-                  </div>
-                </div>
-                <div className="expertise-feature">
-                  <FaBolt className="feature-icon" />
-                  <div>
-                    <h4>Délais Respectés</h4>
-                    <p>Livraison dans les temps avec un suivi rigoureux</p>
-                  </div>
-                </div>
-                <div className="expertise-feature">
-                  <FaShieldAlt className="feature-icon" />
-                  <div>
-                    <h4>Support Continu</h4>
-                    <p>Accompagnement et maintenance après la livraison</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="cta-mini-card">
-                <h3>Prêt à démarrer ?</h3>
-                <p>Discutons de votre projet dès maintenant</p>
-                <div className="cta-mini-actions">
-                  <Link to="/contact" className="btn-mini-primary">
-                    <FaRocket />
-                    Commencer
-                  </Link>
-                  <a href="https://wa.me/221779490685" className="btn-mini-secondary">
-                    <span>💬</span>
-                    WhatsApp
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section Compacte */}
-      <section className="portfolio-cta-compact">
-        <div className="container text-center">
-          <div className="cta-content-compact">
-            <h2>Transformons votre idée en réalité</h2>
-            <p>Contactez-moi pour un devis personnalisé et gratuit</p>
+      {/* CTA Section */}
+      <section style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '6rem 1rem',
+        textAlign: 'center',
+        color: '#ffffff'
+      }}>
+        <div style={{
+          maxWidth: '800px',
+          margin: '0 auto'
+        }}>
+          <h2 style={{ 
+            fontSize: 'clamp(2rem, 4vw, 3rem)',
+            marginBottom: '1.5rem'
+          }}>
+            Transformons votre idée en réalité
+          </h2>
+          <p style={{ 
+            fontSize: '1.2rem',
+            marginBottom: '3rem',
+            opacity: 0.9
+          }}>
+            Contactez-moi pour un devis personnalisé et gratuit
+          </p>
+          
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '1.5rem',
+            flexWrap: 'wrap',
+            marginBottom: '3rem'
+          }}>
+            <Link 
+              to="/contact" 
+              style={{
+                background: '#ffffff',
+                color: '#667eea',
+                padding: '1.2rem 2.5rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                fontWeight: '700',
+                fontSize: '1.1rem',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-3px)';
+                e.target.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+            >
+              <FaRocket />
+              Démarrer mon projet
+            </Link>
             
-            <div className="cta-actions-compact">
-              <Link to="/contact" className="btn-cta-primary-compact">
-                <FaRocket />
-                Démarrer mon projet
-              </Link>
-              
-              <a 
-                href="mailto:marvissene25@gmail.com"
-                className="btn-cta-secondary-compact"
-              >
-                <span>📧</span>
-                Discuter de mon projet
-              </a>
-            </div>
+            <a 
+              href="mailto:marvissene25@gmail.com"
+              style={{
+                background: 'transparent',
+                border: '2px solid rgba(255, 255, 255, 0.8)',
+                color: '#ffffff',
+                padding: '1.2rem 2.5rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                fontWeight: '700',
+                fontSize: '1.1rem',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.target.style.transform = 'translateY(-3px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'transparent';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              <span>📧</span>
+              Discuter de mon projet
+            </a>
+          </div>
 
-            <div className="cta-guarantees-compact">
-              <div className="guarantee-item-compact">
-                <FaCheckCircle />
-                <span>Devis gratuit</span>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '3rem',
+            flexWrap: 'wrap'
+          }}>
+            {[
+              { icon: <FaCheckCircle />, text: 'Devis gratuit' },
+              { icon: <FaShieldAlt />, text: 'Garantie satisfaction' },
+              { icon: <FaBolt />, text: 'Réponse sous 24h' }
+            ].map((item, index) => (
+              <div key={index} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                fontSize: '1rem'
+              }}>
+                {item.icon}
+                <span>{item.text}</span>
               </div>
-              <div className="guarantee-item-compact">
-                <FaShieldAlt />
-                <span>Garantie satisfaction</span>
-              </div>
-              <div className="guarantee-item-compact">
-                <FaBolt />
-                <span>Réponse sous 24h</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* Styles CSS */}
+      <style jsx>{`
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+          70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        }
+        
+        @keyframes loading {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
     </div>
   );
 };
